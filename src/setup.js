@@ -10,19 +10,30 @@ async function setup() {
 
   const registerApi = `https://discord.com/api/v9/applications/${process.env.DISCORD_APPLICATION_ID}/commands`;
 
-  const response = await fetch(registerApi, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
-      'Content-Type': 'application/json',
+  const commands = [
+    {
+      name: "hello",
+      description: "Hello World Command"
     },
-    body: JSON.stringify({
-      name: 'wiki',
-      description: 'Hello World Command',
-    }),
-  });
+    {
+      name: "jokes",
+      description: "Tell a random joke"
+    }
+  ]
 
-  if (!response.ok) {
+
+  const responses = await Promise.all(commands.map((command) => {
+    return fetch(registerApi, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(command),
+    });
+  }))
+
+  if (responses.some((response) => !response.ok)) {
     throw new Error('Failed to register command');
   }
 

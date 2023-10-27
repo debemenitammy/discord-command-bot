@@ -46,17 +46,18 @@ export default async ({ req, res, error, log }) => {
 
    if (
     interaction.type === InteractionType.APPLICATION_COMMAND &&
-    interaction.data.name === 'wiki'
+    interaction.data.name === 'jokes'
   ) {
-    log('Matched wiki command - returning message');
-  
-    log(interaction);
+    log('Matched jokes command - returning message');
+
+    const response = await fetch("https://v2.jokeapi.dev/joke/Any?type=twopart");
+    const data = await response.json();
 
     return res.json(
       {
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
-          content: 'Wiki, World!',
+          content: `${data.setup} ---------- ${data.delivery}`,
         },
       },
       200
