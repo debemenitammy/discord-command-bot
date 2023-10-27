@@ -17,7 +17,7 @@ async function setup() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      name: 'hello',
+      name: 'wiki',
       description: 'Hello World Command',
     }),
   });
