@@ -44,6 +44,25 @@ export default async ({ req, res, error, log }) => {
     );
   }
 
+   if (
+    interaction.type === InteractionType.APPLICATION_COMMAND &&
+    interaction.data.name === 'wiki'
+  ) {
+    log('Matched wiki command - returning message');
+  
+    log(interaction);
+
+    return res.json(
+      {
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: 'Wiki, World!',
+        },
+      },
+      200
+    );
+  }
+
   log("Didn't match command - returning PONG");
 
   return res.json({ type: InteractionResponseType.PONG }, 200);
